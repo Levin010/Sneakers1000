@@ -24,39 +24,38 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import SneakerBox from '@/components/SneakerBox.vue'
-import { useLoadingStore } from '@/stores/loading'
+import { useMainStore } from '@/stores'
 
-export default {
-  name: 'Home',
-  components: {
-    SneakerBox
-  },
-  data() {
-    return {
-      latestSneakers: []
-    }
-  },
-  mounted() {
-    this.getLatestSneakers()
-    document.title = 'Home | Sneakers1000'
-  },
-  methods: {
-    async getLatestSneakers() {
-      const loading = useLoadingStore()
-      loading.setIsLoading(true)
+const latestSneakers = ref([])
 
-      try {
-        const response = await axios.get('/api/v1/latest-sneakers/')
-        this.latestSneakers = response.data
-      } catch (error) {
-        console.log(error)
-      }
+const mainStore = useMainStore()
 
-      loading.setIsLoading(false)
-    }
+const getLatestSneakers = async () => {
+  mainStore.setIsLoading(true)
+
+  try {
+    const response = await axios.get('/api/v1/latest-sneakers/')
+    latestSneakers.value = response.data
+  } catch (error) {
+    console.log(error)
   }
+
+  mainStore.setIsLoading(false)
+}
+
+onMounted(() => {
+  getLatestSneakers()
+  document.title = 'Home | Sneakers1000'
+})
+</script>
+
+<script>
+export default {
+  name: 'Home'
 }
 </script>
+
