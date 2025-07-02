@@ -30,39 +30,36 @@
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
-import { useLoadingStore } from '@/stores/loading'
+import { useMainStore } from '@/stores'
+import { useRoute } from 'vue-router'
 
-export default {
-  name: 'Sneaker',
-  data() {
-    return {
-      sneaker: {},
-      quantity: 1
-    }
-  },
-  mounted() {
-    this.getSneaker()
-  },
-  methods: {
-    async getSneaker() {
-      const loading = useLoadingStore()
-      loading.setIsLoading(true)
+const sneaker = ref({})
+const quantity = ref(1)
 
-      const category_slug = this.$route.params.category_slug
-      const sneaker_slug = this.$route.params.sneaker_slug
+const mainStore = useMainStore()
+const route = useRoute()
 
-      try {
-        const response = await axios.get(`/api/v1/sneakers/${category_slug}/${sneaker_slug}`)
-        this.sneaker = response.data
-        document.title = this.sneaker.name + ' | Sneakers1000'
-      } catch (error) {
-        console.log(error)
-      }
+const getSneaker = async () => {
+  mainStore.setIsLoading(true)
 
-      loading.setIsLoading(false)
-    }
+  const category_slug = route.params.category_slug
+  const sneaker_slug = route.params.sneaker_slug
+
+  try {
+    const response = await axios.get(`/api/v1/sneakers/${category_slug}/${sneaker_slug}`)
+    sneaker.value = response.data
+    document.title = sneaker.value.name + ' | Sneakers1000'
+  } catch (error) {
+    console.log(error)
   }
+
+  mainStore.setIsLoading(false)
 }
+
+onMounted(() => {
+  getSneaker()
+})
 </script>

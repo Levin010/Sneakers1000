@@ -13,14 +13,14 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'SneakerBox',
-    props: {
-        sneaker: Object
-    }
-}
+<script setup>
+defineOptions({ name: 'SneakerBox' })
+
+defineProps({
+  sneaker: Object
+})
 </script>
+
 
 <style scoped>
   .image {
