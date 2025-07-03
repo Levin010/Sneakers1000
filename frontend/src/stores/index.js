@@ -1,4 +1,3 @@
-// stores/index.js
 import { defineStore } from 'pinia'
 import { ref, reactive, computed } from 'vue'
 
@@ -29,7 +28,7 @@ export const useMainStore = defineStore('main', () => {
   }
 
   function addToCart(item) {
-    const existing = cart.items.find(i => i.product.id === item.product.id)
+    const existing = cart.items.find(i => i.sneaker.id === item.sneaker.id)
     if (existing) {
       existing.quantity = parseInt(existing.quantity) + parseInt(item.quantity)
     } else {

@@ -32,18 +32,19 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
-import { useMainStore } from '@/stores'
 import { useRoute } from 'vue-router'
+import axios from 'axios'
+import { toast } from 'bulma-toast'
+import { useMainStore } from '@/stores'
+
+const store = useMainStore()
+const route = useRoute()
 
 const sneaker = ref({})
 const quantity = ref(1)
 
-const mainStore = useMainStore()
-const route = useRoute()
-
 const getSneaker = async () => {
-  mainStore.setIsLoading(true)
+  store.setIsLoading(true)
 
   const category_slug = route.params.category_slug
   const sneaker_slug = route.params.sneaker_slug
@@ -51,15 +52,39 @@ const getSneaker = async () => {
   try {
     const response = await axios.get(`/api/v1/sneakers/${category_slug}/${sneaker_slug}`)
     sneaker.value = response.data
-    document.title = sneaker.value.name + ' | Sneakers1000'
+    document.title = `${sneaker.value.name} | Sneakers1000`
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
 
-  mainStore.setIsLoading(false)
+  store.setIsLoading(false)
+}
+
+const addToCart = () => {
+  if (isNaN(quantity.value) || quantity.value < 1) {
+    quantity.value = 1
+  }
+
+  const item = {
+    sneaker: sneaker.value,
+    quantity: quantity.value
+  }
+
+  store.addToCart(item)
+
+  toast({
+    message: 'The sneaker was added to the cart',
+    type: 'is-success',
+    dismissible: true,
+    pauseOnHover: true,
+    duration: 2000,
+    position: 'bottom-right'
+  })
 }
 
 onMounted(() => {
   getSneaker()
 })
+
 </script>
+
