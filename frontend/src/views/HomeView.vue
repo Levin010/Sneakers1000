@@ -3,10 +3,10 @@
     <section class="hero is-medium is-dark mb-6">
         <div class="hero-body has-text-centered">
             <p class="title mb-6">
-                Welcome to Sneakers1000
+                Welcome to SNEAKERS1000
             </p>
             <p class="subtitle">
-                The best sneaker store online
+                Kenya's #1 sneaker store
             </p>
         </div>
     </section>
