@@ -9,6 +9,10 @@ from rest_framework.decorators import api_view
 from .models import Sneaker, Category
 from .serializers import SneakerSerializer, CategorySerializer
 
+from django.http import JsonResponse
+from django.conf import settings
+import os
+
 
 class LatestSneakersList(APIView):
     def get(self, request, format=None):
@@ -57,3 +61,21 @@ def search(request):
         return Response(serializer.data)
     else:
         return Response({"sneakers": []})
+
+
+def debug_media(request):
+    media_root = settings.MEDIA_ROOT
+    uploads_path = os.path.join(media_root, "uploads")
+
+    debug_info = {
+        "media_root": media_root,
+        "media_root_exists": os.path.exists(media_root),
+        "uploads_path": uploads_path,
+        "uploads_path_exists": os.path.exists(uploads_path),
+        "media_files": [],
+    }
+
+    if os.path.exists(uploads_path):
+        debug_info["media_files"] = os.listdir(uploads_path)
+
+    return JsonResponse(debug_info)
