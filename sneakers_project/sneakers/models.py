@@ -3,6 +3,7 @@ from PIL import Image
 
 from django.core.files import File
 from django.db import models
+from django.conf import settings
 
 
 class Category(models.Model):
@@ -42,18 +43,17 @@ class Sneaker(models.Model):
 
     def get_image(self):
         if self.image:
-            return "http://127.0.0.1:8000" + self.image.url
+            return settings.MEDIA_URL + self.image.name
         return ""
 
     def get_thumbnail(self):
         if self.thumbnail:
-            return "http://127.0.0.1:8000" + self.thumbnail.url
+            return settings.MEDIA_URL + self.thumbnail.name
         else:
             if self.image:
                 self.thumbnail = self.make_thumbnail(self.image)
                 self.save()
-
-                return "http://127.0.0.1:8000" + self.thumbnail.url
+                return settings.MEDIA_URL + self.thumbnail.name
             else:
                 return ""
 

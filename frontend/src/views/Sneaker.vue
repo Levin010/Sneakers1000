@@ -3,7 +3,7 @@
         <div class="columns is-multiline">
             <div class="column is-9">
                 <figure class="image mb-6">
-                    <img v-bind:src="sneaker.get_image">
+                    <img v-bind:src="`${backendURL}${sneaker.get_image}`">
                 </figure>
 
                 <h1 class="title">{{ sneaker.name }}</h1>
@@ -39,6 +39,8 @@ import { useMainStore } from '@/stores'
 
 const store = useMainStore()
 const route = useRoute()
+
+const backendURL = import.meta.env.VITE_API_URL
 
 const sneaker = ref({})
 const quantity = ref(1)

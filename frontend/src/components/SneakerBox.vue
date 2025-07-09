@@ -2,7 +2,7 @@
     <div class="column is-3">
         <div class="box">
             <figure class="image mb-4">
-                <img v-bind:src="sneaker.get_thumbnail">
+                <img v-bind:src="`${backendURL}${sneaker.get_thumbnail}`">
             </figure>
 
             <h3 class="is-size-4">{{ sneaker.name }}</h3>
@@ -19,6 +19,9 @@ defineOptions({ name: 'SneakerBox' })
 defineProps({
   sneaker: Object
 })
+
+const backendURL = import.meta.env.VITE_API_URL
+
 </script>
 
 
