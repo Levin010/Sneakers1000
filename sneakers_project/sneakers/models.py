@@ -43,17 +43,26 @@ class Sneaker(models.Model):
 
     def get_image(self):
         if self.image:
-            return settings.MEDIA_URL + self.image.name
+            url = self.image.url
+            if url.startswith("http"):
+                return url
+            return url
         return ""
 
     def get_thumbnail(self):
         if self.thumbnail:
-            return settings.MEDIA_URL + self.thumbnail.name
+            url = self.thumbnail.url
+            if url.startswith("http"):
+                return url
+            return url
         else:
             if self.image:
                 self.thumbnail = self.make_thumbnail(self.image)
                 self.save()
-                return settings.MEDIA_URL + self.thumbnail.name
+                url = self.thumbnail.url
+                if url.startswith("http"):
+                    return url
+                return url
             else:
                 return ""
 
