@@ -3,7 +3,7 @@
         <div class="columns is-multiline">
             <div class="column is-9">
                 <figure class="image mb-6">
-                    <img v-bind:src="`${backendURL}${sneaker.get_image}`">
+                    <img v-bind:src="getImageUrl(sneaker.get_image)">
                 </figure>
 
                 <h1 class="title">{{ sneaker.name }}</h1>
@@ -60,6 +60,15 @@ const getSneaker = async () => {
   }
 
   store.setIsLoading(false)
+}
+
+const getImageUrl = (imageUrl) => {
+  // If the image URL is already a full URL (starts with http), return it as-is
+  if (imageUrl && imageUrl.startsWith('http')) {
+    return imageUrl
+  }
+  // Otherwise, prepend your backend URL (for backwards compatibility)
+  return `${backendURL}${imageUrl}`
 }
 
 const addToCart = () => {
