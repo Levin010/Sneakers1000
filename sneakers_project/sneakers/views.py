@@ -79,3 +79,15 @@ def debug_media(request):
         debug_info["media_files"] = os.listdir(uploads_path)
 
     return JsonResponse(debug_info)
+
+
+def debug_cloudinary(request):
+    debug_info = {
+        "cloudinary_cloud_name": os.getenv("CLOUDINARY_CLOUD_NAME"),
+        "cloudinary_api_key": os.getenv("CLOUDINARY_API_KEY"),
+        "cloudinary_api_secret": bool(os.getenv("CLOUDINARY_API_SECRET")),
+        "default_file_storage": getattr(settings, "DEFAULT_FILE_STORAGE", "Not set"),
+        "installed_apps": "cloudinary_storage" in settings.INSTALLED_APPS,
+        "cloudinary_in_apps": "cloudinary" in settings.INSTALLED_APPS,
+    }
+    return JsonResponse(debug_info)

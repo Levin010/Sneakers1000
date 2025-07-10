@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from sneakers_project.sneakers.views import debug_media
+from sneakers_project.sneakers.views import debug_media, debug_cloudinary
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -11,4 +11,5 @@ urlpatterns = [
     path("api/v1/", include("sneakers_project.sneakers.urls")),
     path("api/v1/", include("sneakers_project.order.urls")),
     path("debug/media/", debug_media, name="debug_media"),
+    path("debug/cloudinary/", debug_cloudinary, name="debug_cloudinary"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
