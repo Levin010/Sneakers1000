@@ -63,11 +63,9 @@ const getSneaker = async () => {
 }
 
 const getImageUrl = (imageUrl) => {
-  // If the image URL is already a full URL (starts with http), return it as-is
   if (imageUrl && imageUrl.startsWith('http')) {
     return imageUrl
   }
-  // Otherwise, prepend your backend URL (for backwards compatibility)
   return `${backendURL}${imageUrl}`
 }
 

@@ -2,7 +2,7 @@
     <div class="column is-3">
         <div class="box">
             <figure class="image mb-4">
-                <img v-bind:src="`${backendURL}${sneaker.get_thumbnail}`">
+                <img v-bind:src="getImageUrl(sneaker.get_thumbnail)">
             </figure>
 
             <h3 class="is-size-4">{{ sneaker.name }}</h3>
@@ -21,6 +21,13 @@ defineProps({
 })
 
 const backendURL = import.meta.env.VITE_API_URL
+
+const getImageUrl = (imageUrl) => {
+  if (imageUrl && imageUrl.startsWith('http')) {
+    return imageUrl
+  }
+  return `${backendURL}${imageUrl}`
+}
 
 </script>
 
