@@ -5,6 +5,8 @@ from django.core.files import File
 from django.db import models
 from django.conf import settings
 
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -28,8 +30,12 @@ class Sneaker(models.Model):
     slug = models.SlugField()
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    image = models.ImageField(upload_to="uploads/", blank=True, null=True)
-    thumbnail = models.ImageField(upload_to="uploads/", blank=True, null=True)
+    image = models.ImageField(
+        upload_to="uploads/", blank=True, null=True, storage=MediaCloudinaryStorage()
+    )
+    thumbnail = models.ImageField(
+        upload_to="uploads/", blank=True, null=True, storage=MediaCloudinaryStorage()
+    )
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:

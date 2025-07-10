@@ -12,6 +12,8 @@ from .serializers import SneakerSerializer, CategorySerializer
 from django.http import JsonResponse
 from django.conf import settings
 import os
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 
 class LatestSneakersList(APIView):
@@ -91,3 +93,26 @@ def debug_cloudinary(request):
         "cloudinary_in_apps": "cloudinary" in settings.INSTALLED_APPS,
     }
     return JsonResponse(debug_info)
+
+
+def debug_storage_test(request):
+    try:
+        test_file = ContentFile(b"test content", name="test.txt")
+        saved_name = default_storage.save("test_upload.txt", test_file)
+        file_url = default_storage.url(saved_name)
+
+        return JsonResponse(
+            {
+                "storage_class": str(type(default_storage)),
+                "saved_name": saved_name,
+                "file_url": file_url,
+                "is_cloudinary": "cloudinary.com" in file_url,
+            }
+        )
+    except Exception as e:
+        return JsonResponse(
+            {
+                "error": str(e),
+                "storage_class": str(type(default_storage)),
+            }
+        )

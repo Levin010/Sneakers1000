@@ -59,14 +59,11 @@ INSTALLED_APPS = [
     "sneakers_project.order",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
-
-vercel_domain = os.getenv("VERCEL_DOMAIN")
-if vercel_domain:
-    CORS_ALLOWED_ORIGINS.append(vercel_domain)
-
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
 
 cloudinary.config(
     cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
@@ -76,6 +73,14 @@ cloudinary.config(
 )
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+vercel_domain = os.getenv("VERCEL_DOMAIN")
+if vercel_domain:
+    CORS_ALLOWED_ORIGINS.append(vercel_domain)
 
 
 REST_FRAMEWORK = {
